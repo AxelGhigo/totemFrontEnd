@@ -1,0 +1,9 @@
+.numero {
+  display: table;
+  padding: 10px;
+}
+
+.NUM {
+  display: table-cell;
+  vertical-align: middle;
+}
