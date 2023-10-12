@@ -24,15 +24,15 @@ export class TotemorizontaleComponent implements OnInit {
 
   typeColl: any = ["priorità", "type", "number", "data", "room", "stato"]
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.socket = io.io(`localhost:3000`)
 
     this.socket.emit('type', 'totem')
 
-    this.socket.on('popup', (res: any)=> {
-      console.log("messagio:"+res)
+    this.socket.on('popup', (res: any) => {
+      console.log("messagio:" + res)
       this.numerator = res
       this.stanpa = JSON.stringify(res);
     });
@@ -44,41 +44,41 @@ export class TotemorizontaleComponent implements OnInit {
       this.getData(res)
     });
 
-    this.socket.on('user', (res: any) => {this.tabs = res ; console.log(this.tabs)})
+    this.socket.on('user', (res: any) => { this.tabs = res; console.log(this.tabs) })
   }
 
-  setTab(t: any){ this.selectedTab = t }
+  setTab(t: any) { this.selectedTab = t }
 
-  
+
   getData(obj: any) {
     this.tabKey = obj.head
     this.tabValue = obj.body
   }
 
-  fielModifie(e: any){
+  fielModifie(e: any) {
     this.tabValue[e.target.id.split('.')[0]][e.target.id.split('.')[1]].value = e.target.value
 
     this.sendNewMsg()
   }
 
-  addRow(){
-       let arr: any =[]
-      this.tabKey.forEach((e: any)=>{
-        arr.push({"value" : ""})
-      })
-      console.log(arr)
-      this.tabValue.push(arr) 
-    
+  addRow() {
+    let arr: any = []
+    this.tabKey.forEach((e: any) => {
+      arr.push({ "value": "" })
+    })
+    console.log(arr)
+    this.tabValue.push(arr)
+
     console.log(this.tabValue)
     this.sendNewMsg()
   }
 
-  removeRow(i: any){
-    this.tabValue.splice(i,1)
+  removeRow(i: any) {
+    this.tabValue.splice(i, 1)
     this.sendNewMsg()
   }
 
-  callPopUp(i: any){
+  callPopUp(i: any) {
     this.socket.emit('sendpopup', {
       "numerator": this.tabValue[i][this.tabKey.indexOf('number')].value,
       "urgenza": this.tabValue[i][this.tabKey.indexOf('priorità')].value,
@@ -86,50 +86,50 @@ export class TotemorizontaleComponent implements OnInit {
     })
   }
 
-  addColl(e: any){
+  addColl(e: any) {
     console.log(e.target.innerText)
     this.tabKey.push(e.target.innerText)
-    this.tabValue.map((e: any) => e.push({"value" : ""}))
+    this.tabValue.map((e: any) => e.push({ "value": "" }))
 
     this.sendNewMsg()
   }
 
-  removeColl(i: any){
-    this.tabValue = this.tabValue.map((e: any) => {e.splice(i,1); return e})
-    this.tabKey.splice(i,1)
+  removeColl(i: any) {
+    this.tabValue = this.tabValue.map((e: any) => { e.splice(i, 1); return e })
+    this.tabKey.splice(i, 1)
 
     this.sendNewMsg()
   }
 
-  moveCollLeft(i: any){
-    this.tabKey = this.scambia(this.tabKey, i-1, i)
+  moveCollLeft(i: any) {
+    this.tabKey = this.scambia(this.tabKey, i - 1, i)
 
-    this.tabValue.map((e: any) =>{
-      e = this.scambia(e, i-1, i)
+    this.tabValue.map((e: any) => {
+      e = this.scambia(e, i - 1, i)
     })
 
     this.sendNewMsg()
   }
-  moveCollRight(i: any){
-    this.tabKey = this.scambia(this.tabKey, i+1, i)
+  moveCollRight(i: any) {
+    this.tabKey = this.scambia(this.tabKey, i + 1, i)
 
-    this.tabValue.map((e: any) =>{
-      e = this.scambia(e, i+1, i)
+    this.tabValue.map((e: any) => {
+      e = this.scambia(e, i + 1, i)
     })
-    
+
     this.sendNewMsg()
   }
 
-  sendNewMsg(){
+  sendNewMsg() {
     this.socket.emit('newMsg', {
-      "head" : this.tabKey, "body" : this.tabValue, "selectedTab" : this.selectedTab
+      "head": this.tabKey, "body": this.tabValue, "selectedTab": this.selectedTab
     })
   }
 
-  scambia(T:any, v:any, n: any){
-    const x=T[n];
-    T[n]=T[v];
-    T[v]=x;
+  scambia(T: any, v: any, n: any) {
+    const x = T[n];
+    T[n] = T[v];
+    T[v] = x;
     return T
-    }
+  }
 }
