@@ -1,5 +1,26 @@
-<h1>Tabellone</h1>
-<p>{{ numerotore }}</p>
-<div class="numero">
-  <div class="NUM" #numeratori></div>
-</div>
+<body>
+  <header class="intestazione">
+    <div>
+      <img  src="assets/img/logo_artexe.png" >
+      <div class="date">{{ date }}</div>
+      <div class="time">{{ minuti }}<span class="blink">:</span>{{ ore }}</div>
+    </div>
+    <div class="title">Pazienti in ATTESA</div>
+    <app-grafici ></app-grafici>
+  </header>
+  <table id="customers">
+    <thead>
+      <tr class="header">
+        <th *ngFor="let key of tabKey">{{ key }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let arr of tabValue">
+        <td *ngFor="let val of arr" [style.color]="val.color" [style.background-image]="'url(\'assets/png/' + val.png + '.png\')'" [ngClass]="val.class">{{ val.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <footer>
+    <div class="sito_web">www.artexe.com</div>
+  </footer>
+</body>

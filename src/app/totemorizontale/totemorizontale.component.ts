@@ -7,26 +7,129 @@ import * as io from 'socket.io-client';
   templateUrl: './totemorizontale.component.html',
   styleUrls: ['./totemorizontale.component.css']
 })
-export class TotemorizontaleComponent implements OnInit{
+export class TotemorizontaleComponent implements OnInit {
   @ViewChild('prova') prova!: ElementRef
 
   socket: any;
   numerator: any;
+  stanpa: any;
+  selectedTab: any
+
+
+  dataMessageResults: any = []
+  tabKey: any = []
+  tabValue: any = []
+  paginaton: any = []
+  tabs: any = []
+
+  typeColl: any = ["priorità", "type", "number", "data", "room", "stato"]
 
   constructor() {}
 
   ngOnInit(): void {
     this.socket = io.io(`localhost:3000`)
-    this.socket.on('nuovoMessagio', (res: any)=> {
+
+    this.socket.emit('type', 'totem')
+
+    this.socket.on('popup', (res: any)=> {
       console.log("messagio:"+res)
       this.numerator = res
-
+      this.stanpa = JSON.stringify(res);
     });
+
+    this.socket.on('Messagio', (res: any) => {
+
+      this.tabKey = [], this.tabValue = []
+
+      this.getData(res)
+    });
+
+    this.socket.on('user', (res: any) => {this.tabs = res ; console.log(this.tabs)})
   }
 
-  pippo(): void {
-    this.socket.emit('sendMessage', this.prova.nativeElement.value)
+  setTab(t: any){ this.selectedTab = t }
+
+  
+  getData(obj: any) {
+    this.tabKey = obj.head
+    this.tabValue = obj.body
   }
 
+  fielModifie(e: any){
+    this.tabValue[e.target.id.split('.')[0]][e.target.id.split('.')[1]].value = e.target.value
 
+    this.sendNewMsg()
+  }
+
+  addRow(){
+       let arr: any =[]
+      this.tabKey.forEach((e: any)=>{
+        arr.push({"value" : ""})
+      })
+      console.log(arr)
+      this.tabValue.push(arr) 
+    
+    console.log(this.tabValue)
+    this.sendNewMsg()
+  }
+
+  removeRow(i: any){
+    this.tabValue.splice(i,1)
+    this.sendNewMsg()
+  }
+
+  callPopUp(i: any){
+    this.socket.emit('sendpopup', {
+      "numerator": this.tabValue[i][this.tabKey.indexOf('number')].value,
+      "urgenza": this.tabValue[i][this.tabKey.indexOf('priorità')].value,
+      "colore": this.tabValue[i][this.tabKey.indexOf('number')].color,
+    })
+  }
+
+  addColl(e: any){
+    console.log(e.target.innerText)
+    this.tabKey.push(e.target.innerText)
+    this.tabValue.map((e: any) => e.push({"value" : ""}))
+
+    this.sendNewMsg()
+  }
+
+  removeColl(i: any){
+    this.tabValue = this.tabValue.map((e: any) => {e.splice(i,1); return e})
+    this.tabKey.splice(i,1)
+
+    this.sendNewMsg()
+  }
+
+  moveCollLeft(i: any){
+    this.tabKey = this.scambia(this.tabKey, i-1, i)
+
+    this.tabValue.map((e: any) =>{
+      e = this.scambia(e, i-1, i)
+    })
+
+    this.sendNewMsg()
+  }
+  moveCollRight(i: any){
+    this.tabKey = this.scambia(this.tabKey, i+1, i)
+
+    this.tabValue.map((e: any) =>{
+      e = this.scambia(e, i+1, i)
+    })
+    
+    this.sendNewMsg()
+  }
+
+  sendNewMsg(){
+    this.socket.emit('newMsg', {
+      "head" : this.tabKey, "body" : this.tabValue, "selectedTab" : this.selectedTab
+    })
+  }
+
+  scambia(T:any, v:any, n: any){
+    const x=T[n];
+    T[n]=T[v];
+    T[v]=x;
+    return T
+    }
 }

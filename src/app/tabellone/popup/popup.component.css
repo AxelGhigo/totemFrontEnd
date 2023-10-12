@@ -1,0 +1,24 @@
+.description{
+  font-family: Trebuchet MS;
+  font-size: 50px;
+  padding-left: 50px;
+}
+
+.numerator{
+  font-size: 300px;
+  text-align: center;
+  font-family: Trebuchet MS;
+}
+
+.urgenza {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 140px;
+  font-family: Trebuchet MS;
+}
+
+.prova{
+  background-color: blue;
+}

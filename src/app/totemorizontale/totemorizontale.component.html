@@ -1,4 +1,80 @@
-<input type="text" #prova />
-<input type="submit" (click)="pippo()" value="attiva connesione" />
-<br>
-<h1>{{numerator}}</h1>
+
+
+<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+
+  <mat-button-toggle  *ngFor="let tab of tabs; let i = index" (click)="setTab(tab)" value ="{{tab}}">{{i}}</mat-button-toggle>
+</mat-button-toggle-group>
+
+<table id="customers">
+  <thead>
+    <tr class="header">
+      <th *ngFor="let key of tabKey; let i = index; let l = count">
+        {{ key }}
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="removeColl(i)">
+            <mat-icon>highlight_off</mat-icon>
+            <span>Delete</span>
+          </button>
+          <div style="display: flex; flex-direction: row;">
+            <button mat-menu-item (click)="moveCollLeft(i)" [disabled] = 'i === 0'>
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <button mat-menu-item (click)="moveCollRight(i)" [disabled] = 'i === l-1'>
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </mat-menu>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let arr of tabValue; let i = index">
+      <td *ngFor="let val of arr; let x = index">
+
+        <mat-form-field style="width: 120px" >
+            <input matInput type="text"
+            value="{{ val.value }}"
+            (change)="fielModifie($event)"
+            id="{{ i }}.{{ x }}">
+          </mat-form-field>
+        
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>dialpad</mat-icon>
+            <span>Redial</span>
+          </button>
+        </mat-menu>
+      </td>
+      <button mat-icon-button (click)="removeRow(i)" color="warn">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <button mat-icon-button (click)="callPopUp(i)" style="color: green">
+        <mat-icon>play_circle_filled</mat-icon>
+      </button>
+    </tr>
+  </tbody>
+  <button mat-icon-button (click)="addRow()">
+    <mat-icon>add_box</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button
+      *ngFor="let numColl of typeColl"
+      mat-menu-item
+      (click)="addColl($event)"
+    >
+      {{ numColl }}
+    </button>
+  </mat-menu>
+</table>
