@@ -31,6 +31,8 @@ export class TabelloneComponent {
     this.getTime()
     const socket = io.io(`localhost:3000`)
 
+    console.log(socket.id)
+
     socket.emit('type', 'tab')
 
     socket.on('Messagio', (res: any) => {
@@ -53,9 +55,11 @@ export class TabelloneComponent {
         data: res.data
       });
 
-      dialogRef.afterOpened().subscribe(_ => {setTimeout(()=>{
-        dialogRef.close();
-      }, res.awaitTime)});
+      dialogRef.afterOpened().subscribe(_ => {
+        setTimeout(() => {
+          dialogRef.close();
+        }, res.awaitTime)
+      });
     })
 
   }

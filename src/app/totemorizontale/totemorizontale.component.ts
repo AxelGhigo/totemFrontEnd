@@ -12,7 +12,7 @@ export class TotemorizontaleComponent implements OnInit {
 
   socket: any;
   numerator: any;
-  stanpa: any;
+  stampa: any;
   selectedTab: any
 
 
@@ -34,20 +34,21 @@ export class TotemorizontaleComponent implements OnInit {
     this.socket.on('popup', (res: any) => {
       console.log("messagio:" + res)
       this.numerator = res
-      this.stanpa = JSON.stringify(res);
-    });
-
-    this.socket.on('Messagio', (res: any) => {
-
-      this.tabKey = [], this.tabValue = []
-
-      this.getData(res)
+      this.stampa = JSON.stringify(res);
     });
 
     this.socket.on('user', (res: any) => { this.tabs = res; console.log(this.tabs) })
+
+    this.socket.on('sendSelecetedTab', (t: any) => {
+      console.log('sendSelecetedTab', t)
+
+      this.tabKey = t.tab.head
+      this.tabValue = t.tab.body
+      this.selectedTab = t.user
+    })
   }
 
-  setTab(t: any) { this.selectedTab = t }
+  setTab(t: any) { this.socket.emit('takeSelectedtab', t) }
 
 
   getData(obj: any) {
@@ -121,6 +122,7 @@ export class TotemorizontaleComponent implements OnInit {
   }
 
   sendNewMsg() {
+    console.log(this.selectedTab)
     this.socket.emit('newMsg', {
       "head": this.tabKey, "body": this.tabValue, "selectedTab": this.selectedTab
     })
