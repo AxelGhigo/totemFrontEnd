@@ -1,8 +1,7 @@
-
-
 <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
 
-  <mat-button-toggle  *ngFor="let tab of tabs; let i = index" (click)="setTab(tab)" value ="{{tab}}">{{i}}</mat-button-toggle>
+  <mat-button-toggle *ngFor="let tab of tabs; let i = index" (click)="setTab(tab)"
+    value="{{tab.user}}">{{i}}</mat-button-toggle>
 </mat-button-toggle-group>
 
 <table id="customers">
@@ -19,10 +18,10 @@
             <span>Delete</span>
           </button>
           <div style="display: flex; flex-direction: row;">
-            <button mat-menu-item (click)="moveCollLeft(i)" [disabled] = 'i === 0'>
+            <button mat-menu-item (click)="moveCollLeft(i)" [disabled]='i === 0'>
               <mat-icon>arrow_back</mat-icon>
             </button>
-            <button mat-menu-item (click)="moveCollRight(i)" [disabled] = 'i === l-1'>
+            <button mat-menu-item (click)="moveCollRight(i)" [disabled]='i === l-1'>
               <mat-icon>arrow_forward</mat-icon>
             </button>
           </div>
@@ -34,17 +33,11 @@
     <tr *ngFor="let arr of tabValue; let i = index">
       <td *ngFor="let val of arr; let x = index">
 
-        <mat-form-field style="width: 120px" >
-            <input matInput type="text"
-            value="{{ val.value }}"
-            (change)="fielModifie($event)"
-            id="{{ i }}.{{ x }}">
-          </mat-form-field>
-        
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="menu"
-        >
+        <mat-form-field style="width: 120px">
+          <input matInput type="text" value="{{ val.value }}" (change)="fielModifie($event)" id="{{ i }}.{{ x }}">
+        </mat-form-field>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
@@ -69,11 +62,7 @@
     <mat-icon>arrow_forward</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button
-      *ngFor="let numColl of typeColl"
-      mat-menu-item
-      (click)="addColl($event)"
-    >
+    <button *ngFor="let numColl of typeColl" mat-menu-item (click)="addColl($event)">
       {{ numColl }}
     </button>
   </mat-menu>
