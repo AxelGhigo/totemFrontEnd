@@ -27,7 +27,7 @@ export class TotemorizontaleComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.socket = io.io(`localhost:3000`)
+    this.socket = io.io(`https://master--classy-frangollo-6e2df8.netlify.app:3000`)
 
     this.socket.emit('type', 'totem')
 
