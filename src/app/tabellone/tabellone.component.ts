@@ -29,7 +29,7 @@ export class TabelloneComponent {
 
   ngOnInit(): void {
     this.getTime()
-    const socket = io.io(`https://master--classy-frangollo-6e2df8.netlify.app:3000`)
+    const socket = io.io(`https://totem-socket.adaptable.app/`)
 
     console.log(socket.id)
 
