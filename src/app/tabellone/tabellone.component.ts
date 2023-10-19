@@ -27,7 +27,7 @@ export class TabelloneComponent {
 
   ngOnInit(): void {
     this.getTime()
-    const socket = io.io(`https://totem-socket.adaptable.app`)
+    const socket = io.io(`https://totem-socket.adaptable.app/`)
 
     console.log(socket.id)
 
