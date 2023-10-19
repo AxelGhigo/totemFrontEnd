@@ -12,8 +12,6 @@ import { PopupComponent } from './popup/popup.component';
 })
 export class TabelloneComponent {
 
-  config: any
-
   dataMessageResults: any = []
   tabKey: any = []
   tabValue: any = []
@@ -41,11 +39,6 @@ export class TabelloneComponent {
 
       this.getData(res)
     });
-
-    socket.on('configurazioni', (res: any) => {
-      console.log(res.numCollum)
-      this.config = res
-    })
 
     socket.on('popup', (res) => {
       console.log(res)
