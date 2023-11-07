@@ -1,4 +1,4 @@
-body{
+body {
   background-color: #0068B5;
   font-family: Trebuchet MS;
   border-top-right-radius: 5px;
@@ -9,7 +9,7 @@ body{
 
 
 /***************INTESTAZIONE ***************/
-.intestazione{
+.intestazione {
   color: #ddd;
   text-align: center;
   display: flex;
@@ -18,15 +18,15 @@ body{
   align-items: center;
 }
 
-.time{
+.time {
   font-size: 90px;
 }
 
-.date{
+.date {
   font-size: 20px;
 }
 
-.title{
+.title {
   font-size: 6em;
   text-align: end;
 }
@@ -46,22 +46,31 @@ body{
   color: #ddd;
 }
 
-tr:first-child th:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px;}
-tr:first-child th:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px;}
+tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
 
 thead tr {
   font-size: 250%;
 }
 
-tbody tr{
+tbody tr {
   font-size: 300%;
 }
 
 #customers tr {
-  background: linear-gradient(to right, rgba(0,0,0,0), #014070, rgba(0,0,0,0));
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), #014070, rgba(0, 0, 0, 0));
 }
 
-#customers tr:nth-child(odd){background : none;}
+#customers tr:nth-child(odd) {
+  background: none;
+}
 
 #customers th {
   padding-top: 12px;
@@ -72,42 +81,49 @@ tbody tr{
 }
 
 
-.blink {animation: blink 1.5s linear infinite;}
+.blink {
+  animation: blink 1.5s linear infinite;
+}
+
 @keyframes blink {
   0% {
     opacity: 0;
   }
+
   25% {
     opacity: .5;
   }
+
   50% {
     opacity: 1;
   }
+
   75% {
     opacity: .5;
   }
+
   100% {
     opacity: 0;
   }
 }
 
-.type{
-  background-size: 65% 65%;
+.type {
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
+  margin: 10px;
 
 }
 
 /***************FOOTER***************/
-.sito_web{
+.sito_web {
   color: #ddd;
   font-size: 15px;
   padding: 10px 10px 10px 10px;
 }
 
 
-#customers .standard{
+#customers .standard {
   padding: 1px;
   font-size: 1.8em;
 }
-

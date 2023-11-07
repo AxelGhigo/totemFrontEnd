@@ -1,5 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Popup } from '../int/popup';
+import { BaseObj } from '../int/base-obj';
+import { Tab } from '../int/tab';
+import { Common } from '../lib/common';
+import { Time } from '../int/time';
 
 
 import * as io from 'socket.io-client';
@@ -10,37 +15,36 @@ import { PopupComponent } from './popup/popup.component';
   templateUrl: './tabellone.component.html',
   styleUrls: ['./tabellone.component.css']
 })
-export class TabelloneComponent {
+export class TabelloneComponent extends Common {
 
-  dataMessageResults: any = []
-  tabKey: any = []
-  tabValue: any = []
-  paginaton: any = []
+  tabKey: string[] = []
+  tabValue: Array<BaseObj>[] = []
+  time: Time = {
+    minuti: '00',
+    ore: '00',
+    date: ''
+  };
 
-  minuti: any
-  ore: any
-  date: any;
-
-  constructor(public dialog: MatDialog) { }
-
-  numerotore = ""
+  constructor(public dialog: MatDialog) {
+    super();
+  }
 
   ngOnInit(): void {
     this.getTime()
-    const socket = io.io(`https://totem-socket.adaptable.app/`)
-
-    console.log(socket.id)
+    const socket = io.io(`localhost:3000`)
 
     socket.emit('type', 'tab')
 
-    socket.on('Messagio', (res: any) => {
+    socket.on('Messagio', (res: Tab) => {
 
-      this.tabKey = [], this.tabValue = []
+      this.tabKey = res.head
+      this.tabValue = res.body
 
-      this.getData(res)
+      console.log(this.tabValue)
+
     });
 
-    socket.on('popup', (res) => {
+    socket.on('popup', (res: Popup) => {
       console.log(res)
       const dialogRef = this.dialog.open(PopupComponent, {
         width: '900px',
@@ -49,40 +53,22 @@ export class TabelloneComponent {
       });
 
       dialogRef.afterOpened().subscribe(_ => {
+        let audio = new Audio();
+        audio.src = "../../assets/audio/popup.mp3";
+        audio.load();
+        audio.play();
         setTimeout(() => {
           dialogRef.close();
-        }, res.awaitTime)
+        },
+          res.awaitTime)
       });
     })
 
   }
 
-  getData(obj: any) {
-
-    this.tabKey = obj.head
-    this.tabValue = obj.body
-  }
-
-  blink = true
-
   getTime() {
     setInterval(() => {
-
-      if (this.blink) { this.blink = false }
-      else { this.blink = true }
-
-      const day = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]
-      const mouth = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novrembre", "Dicembre"]
-      const data = new Date()
-      this.minuti = this.addZero(data.getHours())
-      this.ore = this.addZero(data.getMinutes())
-      this.date = day[data.getDay()] + " " + data.getDate() + " " + mouth[data.getMonth()] + " " + data.getFullYear()
-
+      this.time = this.setTime()
     }, 1000)
-  }
-
-  addZero(num: any) {
-    if (num < 10) return "0" + num
-    return num
   }
 }

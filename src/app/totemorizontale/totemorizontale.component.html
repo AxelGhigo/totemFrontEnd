@@ -55,15 +55,17 @@
       </button>
     </tr>
   </tbody>
-  <button mat-icon-button (click)="addRow()">
-    <mat-icon>add_box</mat-icon>
-  </button>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button *ngFor="let numColl of typeColl" mat-menu-item (click)="addColl($event)">
-      {{ numColl }}
+  <div *ngIf="selectedTab">
+    <button mat-icon-button (click)="addRow()">
+      <mat-icon>add_box</mat-icon>
     </button>
-  </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button *ngFor="let numColl of typeColl" mat-menu-item (click)="addColl($event)">
+        {{ numColl }}
+      </button>
+    </mat-menu>
+  </div>
 </table>

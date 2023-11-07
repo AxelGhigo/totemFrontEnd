@@ -2,8 +2,8 @@
   <header class="intestazione">
     <div>
       <img src="assets/img/logo_artexe.png">
-      <div class="date">{{ date }}</div>
-      <div class="time">{{ minuti }}<span class="blink">:</span>{{ ore }}</div>
+      <div class="date">{{ time.date }}</div>
+      <div class="time">{{ time.minuti }}<span class="blink">:</span>{{ time.ore }}</div>
     </div>
     <div class="title">Pazienti in ATTESA</div>
     <app-grafici></app-grafici>
@@ -17,7 +17,7 @@
     <tbody>
       <tr *ngFor="let arr of tabValue">
         <td *ngFor="let val of arr" [style.color]="val.color"
-          [style.background-image]="'url(\'assets/png/' + val.png + '.png\')'" [ngClass]="val.class">{{ val.value }}
+          [style.background-image]="'url(\'assets/png/' + val.png + '.png\')'" [ngClass]="val.style">{{ val.value }}
         </td>
       </tr>
     </tbody>

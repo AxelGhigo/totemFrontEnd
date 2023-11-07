@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "https://totem-socket.adaptable.app/",
+        "target": "https://totem-socket.adaptable.app",
         "secure": false
     }
 }
